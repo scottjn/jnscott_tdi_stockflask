@@ -22,15 +22,17 @@ from bokeh.plotting import figure
 from bokeh.resources import INLINE
 from bokeh.util.string import encode_utf8
 
+# Start the Flask
 app = flask.Flask(__name__)
 
-#colors = {
-#    'Black': '#000000',
-#    'Red':   '#FF0000',
-#    'Green': '#00FF00',
-#    'Blue':  '#0000FF',
-#}
+colors = {
+    'Black': '#000000',
+    'Red':   '#FF0000',
+    'Green': '#00FF00',
+    'Blue':  '#0000FF',
+}
 
+# Use to set selection defaults in the Bokeh plot (will expand)
 def getitem(obj, item, default):
     if item not in obj:
         return default
@@ -45,10 +47,10 @@ def polynomial():
     args = flask.request.args
 
     # Get all the form arguments in the url with defaults
-#    color = getitem(args, 'color', 'Black')
-#    _from = int(getitem(args, '_from', 0))
-#    to = int(getitem(args, 'to', 10))
-    user_symbol = str(getitem(args, 'Stock Symbol', "FB"))
+    color = getitem(args, 'color', 'Black')
+    _from = int(getitem(args, '_from', 0))
+    to = int(getitem(args, 'to', 100))
+    user_symbol = getitem(args, 'user_symbol', "GOOG")
 
     # Get the data to plot
     geturl = 'https://www.quandl.com/api/v3/datasets/WIKI/'+user_symbol+'/data.json?api_key=xcpuajeyffeoNLoSEozx'
@@ -61,15 +63,11 @@ def polynomial():
 
     # Create a graph with those arguments
     fig = figure(plot_height=300, plot_width=800, tools="", toolbar_location=None,
-      x_axis_type="datetime", x_axis_location="above",
-      background_fill_color="#efefef", x_range=(dates[0], dates[1000]))
+        x_axis_type="datetime", x_axis_location="below", title="Stock Closing Price",
+        background_fill_color="#efefef", x_range=(dates[_from], dates[to]))
 
     fig.line('date', 'close', source=source)
-    fig.yaxis.axis_label = 'Closing Price'
-
-#    x = list(range(_from, to + 1))
-#    fig = figure(title="Polynomial")
-#    fig.line(x, [i ** 2 for i in x], color=colors[color], line_width=2)
+    fig.yaxis.axis_label = 'Closing Price (in USD)'
 
     js_resources = INLINE.render_js()
     css_resources = INLINE.render_css()
@@ -81,9 +79,9 @@ def polynomial():
         plot_div=div,
         js_resources=js_resources,
         css_resources=css_resources,
-#        color=color,
-#        _from=_from,
-#        to=to,
+        color=color,
+        _from=_from,
+        to=to,
         user_symbol=user_symbol
     )
     return encode_utf8(html)
