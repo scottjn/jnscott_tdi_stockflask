@@ -1,0 +1,10 @@
+Flask
+pandas
+bokeh
+gunicorn
+conda
+pip
+numpy
+simplejson
+requests
+
