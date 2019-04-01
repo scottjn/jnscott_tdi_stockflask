@@ -34,9 +34,6 @@ def stock_plot():
 #    menu = [("Closing", "close"), ("Opening", "open"), ("High", "high"), ("Low", "low")]
 #    dropdown = Dropdown(label="Select stock price to plot", button_type="warning", menu=menu)
 
-#    def function_to_call(attr, old, new):
-#        print dropdown.value
-
 #    dropdown.on_change('value', function_to_call)
 #    dropdown.on_click(function_to_call)
 #    dropdown.value
