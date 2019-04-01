@@ -42,7 +42,7 @@ def stock_plot():
 #    plot_type = getitem(args, 'plot_type', "close")
 
     # Get the data to plot
-    geturl = 'https://www.quandl.com/api/v3/datasets/WIKI/'+user_symbol+'/data.json?api_key=xcpuajeyffeoNLoSEozx'
+    geturl = 'https://www.quandl.com/api/v3/datasets/WIKI/'+user_symbol+'/data.json?api_key=insert_valid_quandl_api_key_here'
     r = re.get(geturl)
     json_data = json.loads(r.content.decode('utf-8'))['dataset_data']
     df = pd.DataFrame(data=json_data['data'],columns=json_data['column_names'])
